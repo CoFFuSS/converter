@@ -1,14 +1,15 @@
 'use client';
 
+import { use } from 'react';
 import { CurrencyList } from '../../components/CurrencyList';
 import { AddCurrencyButton } from '../../components/AddCurrencyButton';
 import { ThemeSwitcher } from '../../components/ThemeSwitcher';
 import { LanguageSwitcher } from '../../components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
-export default function ConverterPage({ params }: { params: { lng: string } }) {
+export default function ConverterPage({ params }: { params: Promise<{ lng: string }> }) {
+  const { lng } = use(params);
   const { t } = useTranslation();
-  const lng = params.lng;
 
   return (
     <div style={{ maxWidth: 400, margin: '0 auto', padding: 24 }}>

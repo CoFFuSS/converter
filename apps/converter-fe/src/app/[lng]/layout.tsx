@@ -10,7 +10,8 @@ export async function generateStaticParams() {
     return languages.map((lng: string) => ({ lng }));
 }
 
-export async function generateMetadata({ params: { lng } }: { params: { lng: string } }) {
+export async function generateMetadata({ params}: { params: { lng: string } }) {
+		const { lng } = await params
     const { t } = await initTranslations(lng, ['common']);
     return {
         title: t('metadata.title'),
@@ -20,11 +21,12 @@ export async function generateMetadata({ params: { lng } }: { params: { lng: str
 
 export default async function RootLayout({
     children,
-    params: { lng },
+    params,
 }: {
     children: ReactNode;
     params: { lng: string };
 }) {
+		const { lng } = await params
     const { resources } = await initTranslations(lng, ['common']);
 
     return (
