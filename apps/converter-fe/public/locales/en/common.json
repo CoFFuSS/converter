@@ -1,0 +1,13 @@
+{
+  "converter_title": "Currency Converter",
+  "by_nbrb": "By NBRB rate",
+  "official_rate": "Official rate set by the National Bank of the Republic of Belarus as of {{date}}",
+  "add_currency": "+ Add currency",
+  "all_rates": "All currency rates",
+  "usd": "US dollar",
+  "eur": "euro",
+  "byn": "Belarusian ruble",
+  "rub": "Russian ruble",
+  "uah": "Ukrainian hryvnia",
+  "pln": "Polish zloty"
+}

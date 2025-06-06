@@ -9,7 +9,7 @@ const AppDataSource = new DataSource({
   database: 'converter-db',
   synchronize: false,
   logging: true,
-  entities: ['src/shared/entites/*.entity.ts'],
+  entities: ['src/shared/entities/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
   migrationsTableName: 'migration_table',
   migrationsRun: false,
