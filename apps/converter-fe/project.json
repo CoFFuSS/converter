@@ -1,0 +1,48 @@
+{
+  "name": "converter-fe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/converter-fe",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project converter-fe --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{projectRoot}/.next"],
+      "defaultConfiguration": "production",
+      "options": {},
+      "configurations": {
+        "development": {
+          "outputPath": "{projectRoot}/.next"
+        },
+        "production": {
+          "outputPath": "{projectRoot}/.next"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "{projectName}:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "{projectName}:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "{projectName}:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "{projectName}:build:production"
+      }
+    }
+  }
+}

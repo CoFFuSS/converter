@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "target": "es2020",
+    "moduleResolution": "node"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  }
+}

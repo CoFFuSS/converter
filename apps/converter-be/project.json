@@ -1,0 +1,74 @@
+{
+  "name": "converter-be",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/converter-be/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": ["node-env=production"]
+      },
+      "configurations": {
+        "development": {
+          "args": ["node-env=development"]
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "converter-be:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "converter-be:build:development"
+        },
+        "production": {
+          "buildTarget": "converter-be:build:production"
+        }
+      }
+    },
+    "migration:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typeorm-ts-node-commonjs migration:generate -d data-source.ts",
+        "cwd": "apps/converter-be"
+      }
+    },
+    "migration:create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typeorm-ts-node-commonjs migration:create",
+        "cwd": "apps/converter-be"
+      }
+    },
+    "migration:run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typeorm-ts-node-commonjs migration:run -d data-source.ts",
+        "cwd": "apps/converter-be"
+      }
+    },
+    "migration:revert": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typeorm-ts-node-commonjs migration:revert -d data-source.ts",
+        "cwd": "apps/converter-be"
+      }
+    },
+    "migration:show": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typeorm-ts-node-commonjs migration:show -d data-source.ts",
+        "cwd": "apps/converter-be"
+      }
+    }
+  }
+}
