@@ -7,6 +7,7 @@ import { getDatabaseConfig } from '../../config/database.config';
 import configuration from '../../config/configuration';
 import { configValidationSchema } from '../../config/config.schema';
 import { LoggerMiddleware } from '../../middleware/logger.middleware';
+import { CurrenciesModule } from '../currencies/currencies.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { LoggerMiddleware } from '../../middleware/logger.middleware';
         getDatabaseConfig(configService),
       inject: [ConfigService],
     }),
+    CurrenciesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

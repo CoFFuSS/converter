@@ -19,7 +19,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["apps/converter-fe/src/*"]
+    }
   },
   "include": [
     "**/*.js",
