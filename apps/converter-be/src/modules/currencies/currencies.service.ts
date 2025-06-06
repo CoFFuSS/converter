@@ -1,9 +1,11 @@
+import { LessThan, QueryRunner } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Currency } from '../../shared/entities/currency.entity';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { last } from 'rxjs';
 
 @Injectable()
 export class CurrenciesService {
@@ -80,18 +82,27 @@ export class CurrenciesService {
   }
 
   async getCurrencies(): Promise<Currency[]> {
-    const lastUpdate = await this.currenciesRepository
-      .createQueryBuilder('currency')
-      .orderBy('currency.updatedAt', 'DESC')
-      .getOne();
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
 
-    if (
-      !lastUpdate ||
-      Date.now() - lastUpdate.updatedAt.getTime() > 2 * 60 * 60 * 1000
-    ) {
+    const currencies = await queryRunner.manager.find(Currency);
+
+    if (currencies.length === 0) {
+      await this.clearCurrencies();
       await this.updateCurrencies();
     }
 
-    return this.currenciesRepository.find();
+    const currency = await queryRunner.manager.findOne(Currency, {
+      where: {
+        updatedAt: LessThan(new Date(Date.now() - 2 * 60 * 60 * 1000)),
+      },
+    });
+
+    if (!currency) {
+      await this.clearCurrencies();
+      await this.updateCurrencies();
+    }
+
+    return queryRunner.manager.find(Currency);
   }
 }

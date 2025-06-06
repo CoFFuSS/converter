@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 
 export const AddCurrencyButton = () => {
   const dispatch = useDispatch();
-  const { selected, allRates } = useSelector((state: RootState) => state.currencies);
+  const { selected, all } = useSelector((state: RootState) => state.currencies);
   const { t } = useTranslation();
 
-  const available = allRates.filter((c) => !selected.includes(c.code));
+  const available = all.filter((c) => !selected.includes(c.code));
 
   const handleAdd = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const code = e.target.value;

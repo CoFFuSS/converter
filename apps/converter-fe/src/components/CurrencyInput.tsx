@@ -10,9 +10,10 @@ interface CurrencyInputProps {
   nameEn?: string;
   value: string;
   disabled?: boolean;
+  onChange?: (code: string, value: string) => void;
 }
 
-export const CurrencyInput = ({ code, nameRu, nameEn, value, disabled }: CurrencyInputProps) => {
+export const CurrencyInput = ({ code, nameRu, nameEn, value, disabled, onChange }: CurrencyInputProps) => {
   // const dispatch = useDispatch();
   // const language = useSelector((state: RootState) => state.ui.language);
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ export const CurrencyInput = ({ code, nameRu, nameEn, value, disabled }: Currenc
         <input
           type="number"
           value={value}
-          // onChange={handleChange}
+          onChange={onChange ? (e) => onChange(code, e.target.value) : undefined}
           disabled={disabled}
           style={{
             fontSize: 18,
