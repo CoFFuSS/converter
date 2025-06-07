@@ -52,11 +52,14 @@ export const convertCurrencies = createAsyncThunk(
     value: string;
     selected: string[];
   }) => {
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/convert`, {
-      code,
-      value,
-      selected,
-    });
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/currencies/convert`,
+      {
+        code,
+        value,
+        selected,
+      }
+    );
     return res.data; // { [code]: value, ... }
   }
 );

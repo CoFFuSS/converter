@@ -1,11 +1,10 @@
-import { LessThan, QueryRunner } from 'typeorm';
+import { LessThan } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Currency } from '../../shared/entities/currency.entity';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { last } from 'rxjs';
 
 @Injectable()
 export class CurrenciesService {
@@ -104,5 +103,37 @@ export class CurrenciesService {
     }
 
     return queryRunner.manager.find(Currency);
+  }
+
+  async convert({
+    code,
+    value,
+    selected,
+  }: {
+    code: string;
+    value: string;
+    selected: string[];
+  }): Promise<Record<string, string>> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    const currencies = await queryRunner.manager.find(Currency, {
+      where: selected.map((c) => ({ code: c })),
+    });
+
+    const base = currencies.find((c) => c.code === code);
+    if (!base) throw new Error('Base currency not found');
+
+    const baseValue = parseFloat(value.replace(',', '.'));
+    const result: Record<string, string> = {};
+
+    for (const cur of currencies) {
+      const valueInUSD = baseValue * (base.rate / base.scale);
+      const valueInCur = valueInUSD / (cur.rate / cur.scale);
+      result[cur.code] = valueInCur.toFixed(4);
+    }
+    result[code] = value;
+
+    return result;
   }
 }
