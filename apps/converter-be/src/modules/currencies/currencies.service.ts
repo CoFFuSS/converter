@@ -81,17 +81,7 @@ export class CurrenciesService {
   }
 
   async getCurrencies(): Promise<Currency[]> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-
-    const currencies = await queryRunner.manager.find(Currency);
-
-    if (currencies.length === 0) {
-      await this.clearCurrencies();
-      await this.updateCurrencies();
-    }
-
-    const currency = await queryRunner.manager.findOne(Currency, {
+    const currency = await this.currenciesRepository.findOne({
       where: {
         updatedAt: LessThan(new Date(Date.now() - 2 * 60 * 60 * 1000)),
       },
@@ -102,7 +92,7 @@ export class CurrenciesService {
       await this.updateCurrencies();
     }
 
-    return queryRunner.manager.find(Currency);
+    return this.currenciesRepository.find();
   }
 
   async convert({
@@ -114,10 +104,7 @@ export class CurrenciesService {
     value: string;
     selected: string[];
   }): Promise<Record<string, string>> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-
-    const currencies = await queryRunner.manager.find(Currency, {
+    const currencies = await this.currenciesRepository.find({
       where: selected.map((c) => ({ code: c })),
     });
 

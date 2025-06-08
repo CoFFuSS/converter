@@ -7,12 +7,8 @@ export default function RootLayout({
     children: ReactNode;
 }) {
     return (
-        <html lang="ru">
-            <body>
-                <ClientProviders>
-                    {children}
-                </ClientProviders>
-            </body>
-        </html>
+		<ClientProviders>
+			{children}
+		</ClientProviders>
     );
 }
