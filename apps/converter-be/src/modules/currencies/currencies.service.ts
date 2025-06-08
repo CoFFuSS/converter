@@ -54,6 +54,14 @@ export class CurrenciesService {
       );
       const currenciesList = currenciesListResponse.data;
 
+      await queryRunner.manager.save(Currency, {
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+      });
+
       for (const rate of rates) {
         const currencyInfo = currenciesList.find(
           (c) => c.Cur_ID === rate.Cur_ID
@@ -92,7 +100,30 @@ export class CurrenciesService {
       await this.updateCurrencies();
     }
 
-    return this.currenciesRepository.find();
+    const currencies = await this.currenciesRepository.find();
+
+    const hasBYN = currencies.some((c) => c.code === 'BYN');
+    if (!hasBYN) {
+      await this.currenciesRepository.save({
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+      });
+      currencies.push({
+        id: 0,
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+
+    return currencies;
   }
 
   async convert({
