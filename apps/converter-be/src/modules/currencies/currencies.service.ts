@@ -1,3 +1,4 @@
+import { LessThan } from 'typeorm';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
@@ -53,6 +54,14 @@ export class CurrenciesService {
       );
       const currenciesList = currenciesListResponse.data;
 
+      await queryRunner.manager.save(Currency, {
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+      });
+
       for (const rate of rates) {
         const currencyInfo = currenciesList.find(
           (c) => c.Cur_ID === rate.Cur_ID
@@ -80,18 +89,69 @@ export class CurrenciesService {
   }
 
   async getCurrencies(): Promise<Currency[]> {
-    const lastUpdate = await this.currenciesRepository
-      .createQueryBuilder('currency')
-      .orderBy('currency.updatedAt', 'DESC')
-      .getOne();
+    const currency = await this.currenciesRepository.findOne({
+      where: {
+        updatedAt: LessThan(new Date(Date.now() - 2 * 60 * 60 * 1000)),
+      },
+    });
 
-    if (
-      !lastUpdate ||
-      Date.now() - lastUpdate.updatedAt.getTime() > 2 * 60 * 60 * 1000
-    ) {
+    if (!currency) {
+      await this.clearCurrencies();
       await this.updateCurrencies();
     }
 
-    return this.currenciesRepository.find();
+    const currencies = await this.currenciesRepository.find();
+
+    const hasBYN = currencies.some((c) => c.code === 'BYN');
+    if (!hasBYN) {
+      await this.currenciesRepository.save({
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+      });
+      currencies.push({
+        id: 0,
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+
+    return currencies;
+  }
+
+  async convert({
+    code,
+    value,
+    selected,
+  }: {
+    code: string;
+    value: string;
+    selected: string[];
+  }): Promise<Record<string, string>> {
+    const currencies = await this.currenciesRepository.find({
+      where: selected.map((c) => ({ code: c })),
+    });
+
+    const base = currencies.find((c) => c.code === code);
+    if (!base) throw new Error('Base currency not found');
+
+    const baseValue = parseFloat(value.replace(',', '.'));
+    const result: Record<string, string> = {};
+
+    for (const cur of currencies) {
+      const valueInUSD = baseValue * (base.rate / base.scale);
+      const valueInCur = valueInUSD / (cur.rate / cur.scale);
+      result[cur.code] = valueInCur.toFixed(4);
+    }
+    result[code] = value;
+
+    return result;
   }
 }
