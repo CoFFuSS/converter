@@ -49,26 +49,85 @@ export const convertCurrencies = createAsyncThunk(
   }
 );
 
+const SESSION_KEY = 'currencies_session';
+
+function saveSession(state: CurrenciesState & { lastChangedCode?: string }) {
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        selected: state.selected,
+        values: state.values,
+        lastChangedCode: state.lastChangedCode,
+      })
+    );
+  }
+}
+
+function loadSession(): Partial<
+  CurrenciesState & { lastChangedCode?: string }
+> | null {
+  if (typeof window !== 'undefined') {
+    const data = sessionStorage.getItem(SESSION_KEY);
+    if (data) {
+      try {
+        return JSON.parse(data);
+      } catch {
+        // ignore JSON parse errors
+      }
+    }
+  }
+  return null;
+}
+
+const initialStateWithHydrated = {
+  ...initialState,
+  hydrated: false as boolean,
+  lastChangedCode: 'USD' as string,
+  restored: false as boolean,
+};
+
 const currenciesSlice = createSlice({
   name: 'currencies',
-  initialState,
+  initialState: initialStateWithHydrated,
   reducers: {
     setSelected(state, action: PayloadAction<string[]>) {
       state.selected = action.payload;
+      saveSession(state);
     },
     setValue(state, action: PayloadAction<{ code: string; value: string }>) {
       state.values[action.payload.code] = action.payload.value;
+      state.lastChangedCode = action.payload.code;
+      saveSession(state);
     },
     resetValues(state) {
       state.values = { USD: '1', EUR: '', RUB: '', BYN: '' };
+      state.lastChangedCode = 'USD';
+      saveSession(state);
     },
     addCurrency: (state, action) => {
       if (!state.selected.includes(action.payload)) {
         state.selected.push(action.payload);
+        saveSession(state);
       }
     },
     removeCurrency: (state, action) => {
       state.selected = state.selected.filter((code) => code !== action.payload);
+      saveSession(state);
+    },
+    hydrateFromSessionStorage(state) {
+      const session = loadSession();
+      if (session) {
+        if (session.selected) state.selected = session.selected;
+        if (session.values) state.values = session.values;
+        if (session.lastChangedCode)
+          state.lastChangedCode = session.lastChangedCode;
+      }
+      state.hydrated = true;
+      state.restored = false;
+    },
+    setRestored(state, action: PayloadAction<boolean>) {
+      state.restored = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -103,6 +162,8 @@ export const {
   resetValues,
   addCurrency,
   removeCurrency,
+  hydrateFromSessionStorage,
+  setRestored,
 } = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

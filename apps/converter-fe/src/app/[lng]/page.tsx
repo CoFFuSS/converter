@@ -3,7 +3,7 @@
 import { use } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrencies, convertCurrencies } from '../../store/slices/currenciesSlice';
+import { fetchCurrencies, convertCurrencies, hydrateFromSessionStorage, setRestored } from '../../store/slices/currenciesSlice';
 import { useTranslation } from 'react-i18next';
 import type { AppDispatch } from '../../store';
 import { RootState } from '../../store';
@@ -17,19 +17,25 @@ export default function ConverterPage({ params }: { params: Promise<{ lng: strin
   const dispatch = useDispatch<AppDispatch>();
   const selected = useSelector((state: RootState) => state.currencies.selected);
   const values = useSelector((state: RootState) => state.currencies.values);
+  const hydrated = useSelector((state: RootState) => state.currencies.hydrated);
+  const lastChangedCode = useSelector((state: RootState) => state.currencies.lastChangedCode);
+  const restored = useSelector((state: RootState) => state.currencies.restored);
 
   useEffect(() => {
     dispatch(fetchCurrencies());
   }, [dispatch]);
 
   useEffect(() => {
-    if (
-      selected.includes('USD') &&
-      BASE_CURRENCIES.every((code) => values[code] === '' || code === 'USD')
-    ) {
-      dispatch(convertCurrencies({ code: 'USD', value: '1', selected }));
+    dispatch(hydrateFromSessionStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!hydrated || restored) return;
+    if (lastChangedCode && values[lastChangedCode] && values[lastChangedCode] !== '') {
+      dispatch(convertCurrencies({ code: lastChangedCode, value: values[lastChangedCode], selected }));
+      dispatch(setRestored(true));
     }
-  }, [selected, values, dispatch]);
+  }, [hydrated, lastChangedCode, values, selected, dispatch, restored]);
 
   return (
     <div className={styles.container}>
