@@ -36,12 +36,30 @@ export default async function RootLayout({
                   body.light {
                     --input-bg: #fff;
                     --input-color: #222;
-                    background: #f5f7fa;
+                    --bg-color: #f5f7fa;
+                    --text-color: #222;
+                    --box-bg: #fff;
+                    --link-color: #1976d2;
+                    --secondary-text: #888;
+                    --button-bg: #f5f7fa;
+                    --button-color: #222;
+                    --button-hover: #e5e7eb;
+                    background: var(--bg-color);
+                    color: var(--text-color);
                   }
                   body.dark {
                     --input-bg: #23272f;
                     --input-color: #f5f7fa;
-                    background: #181a1b;
+                    --bg-color: #181a1b;
+                    --text-color: #f5f7fa;
+                    --box-bg: #23272f;
+                    --link-color: #60a5fa;
+                    --secondary-text: #9ca3af;
+                    --button-bg: #23272f;
+                    --button-color: #f5f7fa;
+                    --button-hover: #2d3238;
+                    background: var(--bg-color);
+                    color: var(--text-color);
                   }
                 `}</style>
             </head>

@@ -1,43 +1,28 @@
+import { CACHE_KEY, CACHE_EXPIRY, initialState } from '@/constants';
+import { CurrenciesState, Currency } from '@/types';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export interface CurrencyValue {
-  code: string;
-  value: string;
-}
-
-export interface Currency {
-  id: number;
-  code: string;
-  nameRu: string;
-  nameEn?: string;
-  scale: number;
-  rate: number;
-}
-
-export interface CurrenciesState {
-  all: Currency[]; // все валюты с бэкенда
-  selected: string[]; // коды выбранных валют
-  values: Record<string, string>; // значения в инпутах по коду валюты
-  loading: boolean;
-  error: string | null;
-}
-
-const initialState: CurrenciesState = {
-  all: [],
-  selected: ['USD', 'EUR', 'RUB', 'BYN'],
-  values: { USD: '1', EUR: '', RUB: '', BYN: '' },
-  loading: false,
-  error: null,
-};
-
 export const fetchCurrencies = createAsyncThunk(
   'currencies/fetchCurrencies',
-  async () => {
-    const res = await axios.get(
+  async (_, { getState }) => {
+    const state = getState() as { currencies: CurrenciesState };
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      const { data, timestamp } = JSON.parse(cachedData);
+      if (Date.now() - timestamp < CACHE_EXPIRY) {
+        return data;
+      }
+    }
+    const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/currencies`
     );
-    return res.data;
+    const data = response.data;
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({ data, timestamp: Date.now() })
+    );
+    return data;
   }
 );
 
@@ -60,7 +45,7 @@ export const convertCurrencies = createAsyncThunk(
         selected,
       }
     );
-    return res.data; // { [code]: value, ... }
+    return res.data;
   }
 );
 
@@ -76,6 +61,14 @@ const currenciesSlice = createSlice({
     },
     resetValues(state) {
       state.values = { USD: '1', EUR: '', RUB: '', BYN: '' };
+    },
+    addCurrency: (state, action) => {
+      if (!state.selected.includes(action.payload)) {
+        state.selected.push(action.payload);
+      }
+    },
+    removeCurrency: (state, action) => {
+      state.selected = state.selected.filter((code) => code !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -104,6 +97,12 @@ const currenciesSlice = createSlice({
   },
 });
 
-export const { setSelected, setValue, resetValues } = currenciesSlice.actions;
+export const {
+  setSelected,
+  setValue,
+  resetValues,
+  addCurrency,
+  removeCurrency,
+} = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

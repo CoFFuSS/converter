@@ -1,11 +1,7 @@
 import React, { useId } from 'react';
 import styles from './Input.module.css';
+import { InputProps } from './Input.types';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    error?: string;
-    helperText?: string;
-}
 
 export function Input({
     label,
