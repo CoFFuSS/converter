@@ -24,21 +24,20 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 3. Если локаль есть, но она некорректная
   const pathSegments = pathname.split('/').filter(Boolean);
   if (pathSegments.length > 0) {
     const potentialLocale = pathSegments[0];
     if (!i18n.locales.includes(potentialLocale)) {
-      const locale = i18n.defaultLocale;
+      const locale = getLocale(request);
       const newPathname = `/${locale}/${pathSegments.slice(1).join('/')}`;
       return NextResponse.redirect(new URL(newPathname, request.url));
     }
+  } else {
+    const locale = getLocale(request);
+    return NextResponse.redirect(new URL(`/${locale}`, request.url));
   }
 }
 
 export const config = {
-  matcher: [
-    // Пропускаем все внутренние пути Next.js и статические файлы
-    '/((?!api|_next/static|_next/image|images|favicon.ico).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico).*)'],
 };

@@ -9,5 +9,12 @@
   "byn": "Belarusian ruble",
   "rub": "Russian ruble",
   "uah": "Ukrainian hryvnia",
-  "pln": "Polish zloty"
+  "pln": "Polish zloty",
+  "light_theme": "Light theme",
+  "dark_theme": "Dark theme",
+  "rates_title": "Currency Rates",
+  "currency_code": "Code",
+  "currency_name": "Name",
+  "rate_to_usd": "Rate to USD",
+  "back_to_converter": "Back to Converter"
 }

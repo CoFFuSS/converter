@@ -1,4 +1,8 @@
 export { Button } from './Button';
 export { Input } from './Input';
-export { Alert } from './Alert';
 export { Loader } from './Loader';
+export { ThemeSwitcher } from './ThemeSwitcher';
+export { LanguageSwitcher } from './LanguageSwitcher';
+export { CurrencyInput } from './CurrencyInput';
+export { CurrencyList } from './CurrencyList';
+export { AddCurrencyButton } from './AddCurrencyButton';

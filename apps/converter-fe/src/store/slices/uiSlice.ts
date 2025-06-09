@@ -1,23 +1,17 @@
+import { initialUIState, THEME_KEY, LANGUAGE_KEY } from '@/constants';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type Theme = 'light' | 'dark';
-
-export interface UIState {
-  theme: Theme;
-  activeTab: 'converter' | 'rates';
-}
-
-const initialState: UIState = {
-  theme: 'light',
-  activeTab: 'converter',
-};
 
 const uiSlice = createSlice({
   name: 'ui',
-  initialState,
+  initialState: initialUIState,
   reducers: {
-    setTheme(state, action: PayloadAction<Theme>) {
+    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
       state.theme = action.payload;
+      localStorage.setItem(THEME_KEY, action.payload);
+    },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      state.language = action.payload;
+      localStorage.setItem(LANGUAGE_KEY, action.payload);
     },
     setActiveTab(state, action: PayloadAction<'converter' | 'rates'>) {
       state.activeTab = action.payload;
@@ -25,5 +19,5 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setTheme, setActiveTab } = uiSlice.actions;
-export default uiSlice.reducer; 
+export const { setTheme, setLanguage, setActiveTab } = uiSlice.actions;
+export default uiSlice.reducer;

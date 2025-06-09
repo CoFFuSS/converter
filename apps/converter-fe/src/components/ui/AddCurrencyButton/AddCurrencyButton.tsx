@@ -1,8 +1,8 @@
-'use client';
-
+import React from 'react';
+import styles from './AddCurrencyButton.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { setSelected } from '../store/slices/currenciesSlice';
+import { RootState } from '../../../store';
+import { setSelected } from '../../../store/slices/currenciesSlice';
 import { useTranslation } from 'react-i18next';
 
 export const AddCurrencyButton = () => {
@@ -20,8 +20,12 @@ export const AddCurrencyButton = () => {
   };
 
   return (
-    <div style={{ marginTop: 16 }}>
-      <select onChange={handleAdd} defaultValue="">
+    <div className={styles.container}>
+      <select 
+        onChange={handleAdd} 
+        defaultValue=""
+        className={styles.select}
+      >
         <option value="" disabled>
           {t('add_currency')}
         </option>
@@ -33,4 +37,6 @@ export const AddCurrencyButton = () => {
       </select>
     </div>
   );
-}; 
+};
+
+export default AddCurrencyButton; 
