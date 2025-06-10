@@ -7,9 +7,9 @@ import { fetchCurrencies, convertCurrencies, hydrateFromSessionStorage, setResto
 import { useTranslation } from 'react-i18next';
 import type { AppDispatch } from '../../store';
 import { RootState } from '../../store';
-import { BASE_CURRENCIES } from '../../constants';
 import styles from './page.module.css';
-import { AddCurrencyButton, CurrencyList, LanguageSwitcher, ThemeSwitcher } from '@/components/ui';
+import { AddCurrencyButton, CurrencyList, LanguageSwitcher, ThemeSwitcher, HistoryList } from '@/components/ui';
+import { setActiveTab } from '../../store/slices/uiSlice';
 
 export default function ConverterPage({ params }: { params: Promise<{ lng: string }> }) {
   const { lng } = use(params);
@@ -20,6 +20,7 @@ export default function ConverterPage({ params }: { params: Promise<{ lng: strin
   const hydrated = useSelector((state: RootState) => state.currencies.hydrated);
   const lastChangedCode = useSelector((state: RootState) => state.currencies.lastChangedCode);
   const restored = useSelector((state: RootState) => state.currencies.restored);
+  const activeTab = useSelector((state: RootState) => state.ui.activeTab);
 
   useEffect(() => {
     dispatch(fetchCurrencies());
@@ -39,20 +40,43 @@ export default function ConverterPage({ params }: { params: Promise<{ lng: strin
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{t('converter_title')}</h1>
-      <div className={styles.switchers}>
-        <ThemeSwitcher />
-        <LanguageSwitcher currentLang={lng} />
+      <div className={styles.tabBar}>
+        <button
+          className={`${styles.tab} ${activeTab === 'converter' ? styles.tabActive : ''}`}
+          onClick={() => dispatch(setActiveTab('converter'))}
+        >
+          {t('converter_title')}
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'history' ? styles.tabActive : ''}`}
+          onClick={() => dispatch(setActiveTab('history'))}
+        >
+          {t('history')}
+        </button>
       </div>
-      <div className={styles.nbrb}>{t('by_nbrb')}</div>
-      <div className={styles.rate}>{t('official_rate', { date: '01.06.2021' })}</div>
-      <div className={styles.block}>
-        <CurrencyList />
-        <AddCurrencyButton />
-      </div>
-      <div className={styles.linkRight}>
-        <a href={`/${lng}/rates`} className={styles.link}>{t('all_rates')}</a>
-      </div>
+      {activeTab === 'converter' && (
+        <>
+          <h1 className={styles.title}>{t('converter_title')}</h1>
+          <div className={styles.switchers}>
+            <ThemeSwitcher />
+            <LanguageSwitcher currentLang={lng} />
+          </div>
+          <div className={styles.nbrb}>{t('by_nbrb')}</div>
+          <div className={styles.rate}>{t('official_rate', { date: '01.06.2021' })}</div>
+          <div className={styles.block}>
+            <CurrencyList />
+            <AddCurrencyButton />
+          </div>
+          <div className={styles.linkRight}>
+            <a href={`/${lng}/rates`} className={styles.link}>{t('all_rates')}</a>
+          </div>
+        </>
+      )}
+      {activeTab === 'history' && (
+        <div className={styles.block}>
+          <HistoryList />
+        </div>
+      )}
     </div>
   );
 } 

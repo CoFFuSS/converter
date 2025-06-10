@@ -5,6 +5,7 @@ import { Repository, DataSource } from 'typeorm';
 import { Currency } from '../../shared/entities/currency.entity';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { TransactionsService } from '../transactions/transactions.service';
 
 @Injectable()
 export class CurrenciesService {
@@ -15,7 +16,8 @@ export class CurrenciesService {
     @InjectRepository(Currency)
     private currenciesRepository: Repository<Currency>,
     private configService: ConfigService,
-    private dataSource: DataSource
+    private dataSource: DataSource,
+    private readonly transactionsService: TransactionsService
   ) {
     this.nbrbApiUrl = this.configService.get<string>('NBRB_API_URL');
   }
@@ -151,6 +153,13 @@ export class CurrenciesService {
       result[cur.code] = valueInCur.toFixed(4);
     }
     result[code] = value;
+
+    await this.transactionsService.create({
+      baseCurrency: code,
+      baseValue: value,
+      targetCurrencies: selected.map((code) => ({ code, value: result[code] })),
+      source: 'cache',
+    });
 
     return result;
   }

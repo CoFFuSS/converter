@@ -13,7 +13,10 @@ const uiSlice = createSlice({
       state.language = action.payload;
       localStorage.setItem(LANGUAGE_KEY, action.payload);
     },
-    setActiveTab(state, action: PayloadAction<'converter' | 'rates'>) {
+    setActiveTab(
+      state,
+      action: PayloadAction<'converter' | 'rates' | 'history'>
+    ) {
       state.activeTab = action.payload;
     },
   },

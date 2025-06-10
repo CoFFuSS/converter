@@ -6,3 +6,4 @@ export { LanguageSwitcher } from './LanguageSwitcher';
 export { CurrencyInput } from './CurrencyInput';
 export { CurrencyList } from './CurrencyList';
 export { AddCurrencyButton } from './AddCurrencyButton';
+export { HistoryList } from './HistoryList';

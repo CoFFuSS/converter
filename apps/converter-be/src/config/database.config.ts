@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Currency } from '../shared/entities/currency.entity';
+import { ConversionTransaction } from '../shared/entities/conversion-transaction.entity';
 
 export const getDatabaseConfig = (
   configService: ConfigService
@@ -11,7 +12,7 @@ export const getDatabaseConfig = (
   username: configService.get<string>('database.username'),
   password: configService.get<string>('database.password'),
   database: configService.get<string>('database.database'),
-  entities: [Currency],
+  entities: [Currency, ConversionTransaction],
   migrations: ['dist/apps/converter-be/src/migrations/*.js'],
   migrationsTableName: 'migration_table',
   migrationsRun: false,

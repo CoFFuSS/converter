@@ -16,5 +16,17 @@
   "currency_code": "Код",
   "currency_name": "Название",
   "rate_to_usd": "Курс к USD",
-  "back_to_converter": "Вернуться к конвертеру"
+  "back_to_converter": "Вернуться к конвертеру",
+  "history": "История",
+  "loading": "Загрузка...",
+  "history.title": "История конверсий",
+  "history.perPage": "на странице",
+  "history.page": "Страница",
+  "history.of": "из",
+  "history.date": "Дата",
+  "history.baseCurrency": "Базовая валюта",
+  "history.baseValue": "Сумма",
+  "history.targetCurrencies": "Целевые валюты",
+  "history.previous": "Назад",
+  "history.next": "Вперед"
 }

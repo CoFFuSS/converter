@@ -2,13 +2,13 @@
 
 import { use, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrencies } from '@/store/slices/currenciesSlice';
+import { fetchCurrencies } from '../../../store/slices/currenciesSlice';
 import { useTranslation } from 'react-i18next';
-import type { AppDispatch } from '@/store';
-import { RootState } from '@/store';
+import type { AppDispatch, RootState } from '../../../store';
 import styles from './page.module.css';
 import { LanguageSwitcher, ThemeSwitcher } from '@/components/ui';
 import Link from 'next/link';
+import { Currency } from '@/types';
 
 export default function RatesPage({ params }: { params: Promise<{ lng: string }> }) {
 	const { lng } = use(params);
@@ -37,12 +37,12 @@ export default function RatesPage({ params }: { params: Promise<{ lng: string }>
             </tr>
           </thead>
           <tbody>
-            {currencies.map((currency) => {
-              const usdRate = currencies.find(c => c.code === 'USD')?.rate || 1;
+            {currencies.map((currency: Currency) => {
+              const usdRate = currencies.find((c: Currency) => c.code === 'USD')?.rate || 1;
               return (
                 <tr key={currency.code}>
                   <td>{currency.code}</td>
-                  <td>{currency.nameEn}</td>
+                  <td>{lng === 'ru' ? currency.nameRu : currency.nameEn}</td>
                   <td>{(currency.rate / usdRate).toFixed(4)}</td>
                 </tr>
               );

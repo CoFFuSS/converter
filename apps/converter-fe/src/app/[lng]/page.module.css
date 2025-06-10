@@ -246,3 +246,35 @@
     font-size: 1rem;
   }
 }
+
+.tabBar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.tab {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: var(--block-bg);
+  color: var(--block-text);
+  border: 1.5px solid var(--block-border, #3b4252);
+  border-bottom: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+}
+
+.tab:not(.tabActive):hover {
+  background: var(--gradient-end);
+  color: var(--link);
+}
+
+.tabActive {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-bottom: 2.5px solid var(--button-bg);
+  z-index: 2;
+}

@@ -1,0 +1,125 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.limitSelect {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.limitSelect:hover {
+  border-color: var(--accent);
+}
+
+.limitSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.pageInfo {
+  font-size: 14px;
+  color: var(--secondary-text);
+}
+
+.tableContainer {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--block-bg);
+  color: var(--block-text);
+  transition: background 0.3s, color 0.3s;
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--input-border);
+  white-space: nowrap;
+}
+
+.table th {
+  background: var(--gradient-start);
+  font-weight: 600;
+  color: var(--block-text);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: var(--gradient-end);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  border: 1px solid var(--input-border);
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+  border-color: var(--accent);
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: var(--secondary-text);
+}
