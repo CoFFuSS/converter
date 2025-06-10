@@ -8,6 +8,7 @@ import configuration from '../../config/configuration';
 import { configValidationSchema } from '../../config/config.schema';
 import { LoggerMiddleware } from '../../middleware/logger.middleware';
 import { CurrenciesModule } from '../currencies/currencies.module';
+import { TransactionsModule } from '../transactions/transactions.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CurrenciesModule } from '../currencies/currencies.module';
       inject: [ConfigService],
     }),
     CurrenciesModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

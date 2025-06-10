@@ -16,5 +16,17 @@
   "currency_code": "Code",
   "currency_name": "Name",
   "rate_to_usd": "Rate to USD",
-  "back_to_converter": "Back to Converter"
+  "back_to_converter": "Back to Converter",
+  "history": "History",
+  "loading": "Loading...",
+  "history.title": "Conversion History",
+  "history.perPage": "per page",
+  "history.page": "Page",
+  "history.of": "of",
+  "history.date": "Date",
+  "history.baseCurrency": "Base Currency",
+  "history.baseValue": "Base Value",
+  "history.targetCurrencies": "Target Currencies",
+  "history.previous": "Previous",
+  "history.next": "Next"
 }
