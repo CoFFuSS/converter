@@ -95,7 +95,13 @@
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
     "prepare": "husky",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "start:prod:be": "node dist/apps/casic-be/main.js",
+    "start:prod:fe": "cd apps/casic-fe/.next && npm run start",
+    "prod:up": "docker-compose -f docker-compose.prod.yml up -d --build",
+    "prod:migrate": "cd apps/casic-be && npm run migration:run",
+    "build:be": "nx build casic-be --prod",
+    "build:fe": "nx build casic-fe"
   },
   "lint-staged": {
     "*.{ts,js}": [
