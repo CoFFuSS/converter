@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './AddCurrencyButton.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../store';
-import { setSelected } from '../../../store/slices/currenciesSlice';
 import { useTranslation } from 'react-i18next';
+import { RootState } from '@/store';
+import { setSelected } from '@/store/slices/currenciesSlice';
 
 export const AddCurrencyButton = () => {
   const dispatch = useDispatch();

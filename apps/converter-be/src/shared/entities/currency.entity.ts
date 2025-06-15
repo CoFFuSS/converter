@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('currencies')
 export class Currency {
@@ -25,4 +31,4 @@ export class Currency {
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}

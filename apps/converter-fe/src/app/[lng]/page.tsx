@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { AppDispatch } from '../../store';
 import { RootState } from '../../store';
 import styles from './page.module.css';
-import { AddCurrencyButton, CurrencyList, LanguageSwitcher, ThemeSwitcher, HistoryList } from '@/components/ui';
+import { AddCurrencyButton, CurrencyList, LanguageSwitcher, ThemeSwitcher, HistoryList, ChartPage } from '@/components/ui';
 import { setActiveTab } from '../../store/slices/uiSlice';
 
 export default function ConverterPage({ params }: { params: Promise<{ lng: string }> }) {
@@ -53,6 +53,12 @@ export default function ConverterPage({ params }: { params: Promise<{ lng: strin
         >
           {t('history')}
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'chart' ? styles.tabActive : ''}`}
+          onClick={() => dispatch(setActiveTab('chart'))}
+        >
+          {t('chart')}
+        </button>
       </div>
       {activeTab === 'converter' && (
         <>
@@ -75,6 +81,11 @@ export default function ConverterPage({ params }: { params: Promise<{ lng: strin
       {activeTab === 'history' && (
         <div className={styles.block}>
           <HistoryList />
+        </div>
+      )}
+      {activeTab === 'chart' && (
+        <div className={styles.block}>
+          <ChartPage />
         </div>
       )}
     </div>

@@ -28,5 +28,6 @@
   "history.baseValue": "Base Value",
   "history.targetCurrencies": "Target Currencies",
   "history.previous": "Previous",
-  "history.next": "Next"
+  "history.next": "Next",
+  "chart": "Chart"
 }

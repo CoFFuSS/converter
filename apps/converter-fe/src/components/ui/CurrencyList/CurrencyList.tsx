@@ -1,12 +1,11 @@
 import React from 'react';
 import styles from './CurrencyList.module.css';
-import { BASE_CURRENCIES } from '../../../constants';
+import { BASE_CURRENCIES } from '@/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../store';
-import { setValue, convertCurrencies, setSelected } from '../../../store/slices/currenciesSlice';
+import { setValue, convertCurrencies, setSelected } from '@/store/slices/currenciesSlice';
 import { useCallback } from 'react';
-import { useDebounce } from '../../../hooks/useDebounce';
-import type { AppDispatch } from '../../../store';
+import { useDebounce } from '@/hooks/useDebounce';
+import type { AppDispatch, RootState } from '@/store';
 import { CurrencyInput } from '../CurrencyInput';
 
 export const CurrencyList = () => {
