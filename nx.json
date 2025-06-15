@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "master",
-  "nxCloudId": "683de9a35b1b475e23240583",
   "plugins": [
     {
       "plugin": "@nx/webpack/plugin",
@@ -36,6 +35,14 @@
       "application": {
         "style": "scss",
         "linter": "eslint"
+      }
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   }
