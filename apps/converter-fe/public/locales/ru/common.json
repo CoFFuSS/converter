@@ -28,5 +28,6 @@
   "history.baseValue": "Сумма",
   "history.targetCurrencies": "Целевые валюты",
   "history.previous": "Назад",
-  "history.next": "Вперед"
+  "history.next": "Вперед",
+  "chart": "График"
 }

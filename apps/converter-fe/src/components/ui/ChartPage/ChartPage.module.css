@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.chartContainer {
+  max-width: 1200px;
+  max-height: 630px;
+  margin: 20px auto;
+  margin-bottom: 400px;
+  width: 100%;
+}
+
+.inputLabel {
+  font-size: var(--font-size-md);
+  color: var(--secondary-text);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controlBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.chartInput {
+  font-size: var(--font-size-md);
+  width: 150px;
+  margin-left: 8px;
+  border-radius: 20px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.chartInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.errorMessage {
+  margin-top: 12px;
+  font-size: var(--font-size-sm);
+  color: var(--error-color);
+}
+
+.submitButton {
+  display: flex;
+  font-size: var(--font-size-md);
+  max-width: 100px;
+  color: var(--button-text);
+  background-color: var(--button-bg);
+  border-radius: 20px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submitButton:hover {
+  transform: scale(1.05);
+  background-color: var(--button-hover-bg);
+}
+
+@media (max-width: 768px) {
+  .controlBlock {
+    flex-direction: column;
+    align-items: center;
+  }
+}

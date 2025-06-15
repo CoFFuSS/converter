@@ -15,7 +15,7 @@ const uiSlice = createSlice({
     },
     setActiveTab(
       state,
-      action: PayloadAction<'converter' | 'rates' | 'history'>
+      action: PayloadAction<'converter' | 'rates' | 'history' | 'chart'>
     ) {
       state.activeTab = action.payload;
     },

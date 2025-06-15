@@ -6,6 +6,7 @@ import { Currency } from '../../shared/entities/currency.entity';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { TransactionsService } from '../transactions/transactions.service';
+import { TWO_HOURS } from '../../shared/constants/updateTime';
 
 @Injectable()
 export class CurrenciesService {
@@ -93,7 +94,7 @@ export class CurrenciesService {
   async getCurrencies(): Promise<Currency[]> {
     const currency = await this.currenciesRepository.findOne({
       where: {
-        updatedAt: LessThan(new Date(Date.now() - 2 * 60 * 60 * 1000)),
+        updatedAt: LessThan(new Date(Date.now() - TWO_HOURS)),
       },
     });
 
@@ -103,27 +104,6 @@ export class CurrenciesService {
     }
 
     const currencies = await this.currenciesRepository.find();
-
-    const hasBYN = currencies.some((c) => c.code === 'BYN');
-    if (!hasBYN) {
-      await this.currenciesRepository.save({
-        code: 'BYN',
-        nameRu: 'Белорусский рубль',
-        nameEn: 'Belarusian Ruble',
-        scale: 1,
-        rate: 1,
-      });
-      currencies.push({
-        id: 0,
-        code: 'BYN',
-        nameRu: 'Белорусский рубль',
-        nameEn: 'Belarusian Ruble',
-        scale: 1,
-        rate: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    }
 
     return currencies;
   }
