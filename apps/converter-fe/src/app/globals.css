@@ -1,0 +1,86 @@
+:root {
+  --background: #f5f6fa;
+  --text: #18191a;
+  --block-bg: #fff;
+  --block-text: #18191a;
+  --gradient-start: #f0f0f0;
+  --gradient-end: #e0e0e0;
+  --button-bg: #0070f3;
+  --button-text: #fff;
+  --input-bg: #fff;
+  --input-border: #cccccc;
+  --input-text: #18191a;
+  --link: #2563eb;
+  --link-hover: #1e40af;
+  --transition: background 0.3s, color 0.3s;
+  --block-border: #e5e7eb;
+}
+
+[data-theme='dark'] {
+  --background: #18191a;
+  --text: #f5f6fa;
+  --block-bg: #23272f;
+  --block-text: #f5f6fa;
+  --gradient-start: #23272f;
+  --gradient-end: #18191a;
+  --button-bg: #2563eb;
+  --button-text: #fff;
+  --input-bg: #23272f;
+  --input-border: #444c56;
+  --input-text: #f5f6fa;
+  --link: #60a5fa;
+  --link-hover: #93c5fd;
+  --block-border: #3b4252;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.container,
+.mainBlock,
+.converterBox {
+  background: linear-gradient(
+    to bottom,
+    var(--gradient-start),
+    var(--gradient-end)
+  );
+  color: var(--block-text);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
+}
+
+button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+input {
+  background: var(--input-bg);
+  color: var(--input-text);
+  border: 1px solid var(--input-border);
+  padding: 10px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+a {
+  color: var(--link);
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--link-hover);
+}

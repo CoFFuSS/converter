@@ -1,19 +1,20 @@
 'use client';
 
 import { use, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrencies } from '../../../store/slices/currenciesSlice';
 import { useTranslation } from 'react-i18next';
+import type { AppDispatch, RootState } from '../../../store';
 import styles from './page.module.css';
 import { LanguageSwitcher, ThemeSwitcher } from '@/components/ui';
 import Link from 'next/link';
-import { CurrenciesRates } from '@/components/ui/CurrenciesRates/CurreniesRates';
-import { fetchCurrencies } from '@/store/slices/currenciesSlice';
-import { AppDispatch } from '@/store';
+import { Currency } from '@/types';
 
 export default function RatesPage({ params }: { params: Promise<{ lng: string }> }) {
 	const { lng } = use(params);
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
+  const currencies = useSelector((state: RootState) => state.currencies.all);
 
   useEffect(() => {
     dispatch(fetchCurrencies());
@@ -35,7 +36,18 @@ export default function RatesPage({ params }: { params: Promise<{ lng: string }>
               <th>{t('rate_to_usd')}</th>
             </tr>
           </thead>
-          <CurrenciesRates lng={lng} />
+          <tbody>
+            {currencies.map((currency: Currency) => {
+              const usdRate = currencies.find((c: Currency) => c.code === 'USD')?.rate || 1;
+              return (
+                <tr key={currency.code}>
+                  <td>{currency.code}</td>
+                  <td>{lng === 'ru' ? currency.nameRu : currency.nameEn}</td>
+                  <td>{(currency.rate / usdRate).toFixed(4)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
       <div className={styles.backButton}>

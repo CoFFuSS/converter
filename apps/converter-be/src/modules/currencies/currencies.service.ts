@@ -105,6 +105,27 @@ export class CurrenciesService {
 
     const currencies = await this.currenciesRepository.find();
 
+    const hasBYN = currencies.some((c) => c.code === 'BYN');
+    if (!hasBYN) {
+      await this.currenciesRepository.save({
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+      });
+      currencies.push({
+        id: 0,
+        code: 'BYN',
+        nameRu: 'Белорусский рубль',
+        nameEn: 'Belarusian Ruble',
+        scale: 1,
+        rate: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+
     return currencies;
   }
 
