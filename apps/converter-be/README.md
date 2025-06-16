@@ -81,24 +81,8 @@ npm run db:reset
 | `DATABASE_PORT`     | Порт БД         | `5432`                  |
 | `DATABASE_USERNAME` | Пользователь БД | `postgres`              |
 | `DATABASE_PASSWORD` | Пароль БД       | `password`              |
-| `DATABASE_NAME`     | Имя БД          | `converter_db`              |
+| `DATABASE_NAME`     | Имя БД          | `converter_db`          |
 | `CORS_ORIGIN`       | CORS origin     | `http://localhost:4200` |
-
-## 🏗️ Архитектура
-
-```
-src/
-├── config/           # Конфигурация приложения
-├── middleware/       # Middleware компоненты
-├── migrations/       # Миграции базы данных
-├── modules/          # Бизнес модули
-│   ├── app/         # Главный модуль
-│   ├── users/       # Модуль пользователей
-│   ├── wallets/     # Модуль кошельков
-│   └── ...
-└── shared/          # Общие компоненты
-    └── entity/      # Entity модели
-```
 
 ## 🛠️ Команды разработки
 
