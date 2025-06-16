@@ -4,7 +4,6 @@ import { Transaction } from '@/types/transaction';
 
 interface HistoryState {
   transactions: Transaction[];
-  total: number;
   page: number;
   limit: number;
   totalPages: number;
@@ -14,7 +13,6 @@ interface HistoryState {
 
 const initialState: HistoryState = {
   transactions: [],
-  total: 0,
   page: 1,
   limit: 10,
   totalPages: 1,
@@ -24,10 +22,9 @@ const initialState: HistoryState = {
 
 interface HistoryResponse {
   data: Transaction[];
-  total: number;
   page: number;
   limit: number;
-  totalPages: number;
+  totalCount: number;
 }
 
 export const fetchHistory = createAsyncThunk(
@@ -53,6 +50,7 @@ const historySlice = createSlice({
     setLimit(state, action: PayloadAction<number>) {
       state.page = 1;
       state.limit = action.payload;
+      fetchHistory({ page: state.page, limit: state.limit });
     },
   },
   extraReducers: (builder) => {
@@ -66,9 +64,12 @@ const historySlice = createSlice({
         (state, action: PayloadAction<HistoryResponse>) => {
           state.loading = false;
           state.transactions = action.payload.data;
-          state.total = action.payload.total;
           state.totalPages =
-            action.payload.totalPages > 0 ? action.payload.totalPages : 1;
+            action.payload.totalCount > 0
+              ? Math.ceil(action.payload.totalCount / state.limit)
+              : 1;
+          console.log(action.payload.totalCount, state.limit);
+          console.log(state.totalPages);
         }
       )
       .addCase(fetchHistory.rejected, (state, action) => {
