@@ -87,21 +87,19 @@ export const ChartPage = () => {
     }
   };
 
-  const handleInputChange = (setter: (value: any) => void) => (event: ChangeEvent<HTMLInputElement>) => {
-    setter(event.target.value);
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(event.target.value);
   };
-  
+
+  const handleNumberChange = (event: ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<number>>) => {
+    setter(Number(event.target.value));
+  };
+
   const inputValues: Record<string, string | number> = {
     selectedDate: selectedDate ?? '',
     minPrice: minPrice,
     maxPrice: maxPrice,
   };
-  
-  const setters: Record<string, (value: any) => void> = {
-      selectedDate: setSelectedDate,
-      minPrice: setMinPrice,
-      maxPrice: setMaxPrice,
-  }
 
   return (
     <form onSubmit={handleFormSubmit} className={styles.container}>
@@ -113,7 +111,9 @@ export const ChartPage = () => {
               id={id}
               type={type}
               value={inputValues[id]}
-              onChange={handleInputChange(setters[id])}
+              onChange={id === 'selectedDate' 
+                ? handleDateChange 
+                : (e) => handleNumberChange(e, id === 'minPrice' ? setMinPrice : setMaxPrice)}
               className={styles.chartInput}
             />
           </label>
