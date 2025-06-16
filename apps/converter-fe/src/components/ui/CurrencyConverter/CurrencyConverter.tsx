@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/store/store';
 import { fetchCurrencies } from '@/store/slices/currenciesSlice';
 import { AddCurrencyButton, CurrencyList } from '..';
 import styles from './CurrencyConverter.module.css';
+import { AppDispatch, RootState } from '@/store';
 
 export const CurrencyConverter = () => {
   const dispatch = useDispatch<AppDispatch>();

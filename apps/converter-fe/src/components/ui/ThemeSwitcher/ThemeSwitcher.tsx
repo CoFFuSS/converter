@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { setTheme } from '@/store/slices/uiSlice';
+import { RootState } from '../../../store';
+import { setTheme } from '../../../store/slices/uiSlice';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../Button';
 

@@ -31,8 +31,9 @@
     "**/*.tsx",
     "../../apps/converter-fe/.next/types/**/*.ts",
     "../../dist/apps/converter-fe/.next/types/**/*.ts",
+    ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "../../apps/converter-fe/.next/.next/types/**/*.ts"
   ],
   "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }

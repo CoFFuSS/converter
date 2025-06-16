@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/store/store';
 import { fetchHistory, setPage, setLimit } from '@/store/slices/historySlice';
 import styles from './HistoryList.module.css';
 import { useTranslation } from 'react-i18next';
 import { Transaction, TargetCurrency } from '@/types/transaction';
+import { AppDispatch, RootState } from '@/store';
 
 export const HistoryList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const {
     transactions,
-    total,
     page,
     limit,
     totalPages,

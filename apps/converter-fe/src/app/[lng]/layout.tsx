@@ -10,7 +10,11 @@ export async function generateStaticParams() {
     return languages.map((lng: string) => ({ lng }));
 }
 
-export async function generateMetadata({ params}: { params: { lng: string } }) {
+interface LayoutProps {
+	params: Promise<{ lng: string }>;
+}
+
+export async function generateMetadata({ params}: LayoutProps) {
 		const { lng } = await params
     const { t } = await initTranslations(lng, ['common']);
     return {
@@ -24,7 +28,7 @@ export default async function RootLayout({
     params,
 }: {
     children: ReactNode;
-    params: { lng: string };
+    params: Promise<{ lng: string }>;
 }) {
 		const { lng } = await params
     const { resources } = await initTranslations(lng, ['common']);

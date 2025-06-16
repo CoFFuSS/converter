@@ -1,5 +1,6 @@
 import { Controller, Get, Delete, Post, Body } from '@nestjs/common';
 import { CurrenciesService } from './currencies.service';
+import { Currency } from '../../shared/entities/currency.entity';
 import {
   ApiTags,
   ApiOperation,
@@ -8,7 +9,6 @@ import {
 } from '@nestjs/swagger';
 import { CurrencyDto } from './dto/currency.dto';
 import { ConvertRequestDto, ConvertResponseDto } from './dto/convert.dto';
-import { Currency } from '../../shared/entities/currency.entity';
 
 @ApiTags('Валюты')
 @Controller('currencies')
